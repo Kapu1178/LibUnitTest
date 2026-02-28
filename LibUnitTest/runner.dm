@@ -52,9 +52,9 @@ var/datum/unit_test_runner/LibUnitTest
 	for(var/datum/unit_test/test_instance as anything in tests_to_run)
 		current_test = test_instance
 
-		test_instance.BeforeRun()
+		test_instance.BeforeRun(src)
 		if(!test_instance.Bailed())
-			test_instance.Run()
+			test_instance.Run(src)
 		test_instance.GarbageCollect()
 
 		if(test_instance.DidFail())
@@ -79,3 +79,17 @@ var/datum/unit_test_runner/LibUnitTest
 /datum/unit_test_runner/proc/TryGetConfig() as /datum/unit_test_config
 	SHOULD_NOT_OVERRIDE(TRUE)
 	return config
+
+/// Returns the bottom-left turf of the test area.
+/datum/unit_test_runner/proc/GetBLTurf()
+	SHOULD_NOT_OVERRIDE(TRUE)
+	return config.bottom_left_turf
+
+/// Returns the top-right turf of the test area.
+/datum/unit_test_runner/proc/GetTRTurf()
+	SHOULD_NOT_OVERRIDE(TRUE)
+	return config.top_right_turf
+
+/// Returns a list of all turfs in the test region.
+/datum/unit_test_runner/proc/GetTestBlock()
+	return block(GetBLTurf(), GetTRTurf())

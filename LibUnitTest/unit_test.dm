@@ -10,11 +10,11 @@
 	VAR_PRIVATE/list/allocated_datums = list()
 
 /// Stub for user behavior, executed before Run().
-/datum/unit_test/proc/BeforeRun()
+/datum/unit_test/proc/BeforeRun(datum/unit_test_runner/runner)
 	return
 
 /// Stub for user behavior, most behavior should occur here.
-/datum/unit_test/proc/Run()
+/datum/unit_test/proc/Run(datum/unit_test_runner/runner)
 	return
 
 /// Clean up references / the unit test area. Executed after Run().

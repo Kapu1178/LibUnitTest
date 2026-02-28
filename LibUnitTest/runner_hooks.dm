@@ -27,9 +27,17 @@
 		var/file = reason_list[i][2]
 		var/line = reason_list[i][3]
 	
-		log_entry += "REASON #[i] | [text] at [file]:[line]"
+		log_entry += "\tREASON #[i] | [text] at [file]:[line]"
+	
+		if(config.github_actions_log && test_instance.DidFail())
+			// I guess you need to URI encode newlines.
+			var/anno = replacetext(replacetext(text, "%", "%25"), "\n", "%0A")
+			world.log << "::error file=[test_instance.name],line=[line],title=[test_instance.type]: [test_instance.type]::[anno]"
 
-	log += jointext(log_entry, "\n")
+	var/log_text = jointext(log_entry, "\n")
+	log += log_text
+	if(config.github_actions_log)
+		world.log << log_text
 
 /// Write the log to the disk.
 /datum/unit_test_runner/proc/writeLogToDisk()
