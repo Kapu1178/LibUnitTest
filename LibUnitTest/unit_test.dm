@@ -9,6 +9,23 @@
 	/// Contains a list of all datums created during the test using the allocate() function, for automatic garbage collection.
 	VAR_PRIVATE/list/allocated_datums = list()
 
+/// Stub for user behavior, executed before Run().
+/datum/unit_test/proc/BeforeRun()
+	return
+
+/// Stub for user behavior, most behavior should occur here.
+/datum/unit_test/proc/Run()
+	return
+
+/// Clean up references / the unit test area. Executed after Run().
+/datum/unit_test/proc/GarbageCollect()
+	SHOULD_CALL_PARENT(TRUE)
+	for(var/datum/datum in allocated_datums)
+		if(!istype(datum, /datum))
+			continue
+		
+		delete_wrapper(datum)
+
 /// Returns TRUE if the unit test concluded with a non-success exit.
 /datum/unit_test/proc/Bailed()
 	SHOULD_NOT_OVERRIDE(TRUE)
@@ -32,23 +49,6 @@
 /datum/unit_test/proc/GetFailReasons()
 	SHOULD_NOT_OVERRIDE(TRUE)
 	return fail_reasons
-
-/// Stub for user behavior, executed before Run().
-/datum/unit_test/proc/BeforeRun()
-	return
-
-/// Stub for user behavior, most behavior should occur here.
-/datum/unit_test/proc/Run()
-	return
-
-/// Clean up references / the unit test area. Executed after Run().
-/datum/unit_test/proc/GarbageCollect()
-	SHOULD_CALL_PARENT(TRUE)
-	for(var/datum/datum in allocated_datums)
-		if(!istype(datum, /datum))
-			continue
-		
-		delete_wrapper(datum)
 
 /// Appends a failure reason, marking the test as failed.
 /datum/unit_test/proc/Fail(failure_reason = "No reason provided", file = caller.file, line = caller.line)

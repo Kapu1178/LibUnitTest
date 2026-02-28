@@ -1,3 +1,6 @@
+// LibUnitTest version 1.0.0
+// Author: Kapu1178
+
 /// SpacemanDMM is optional, but not required. If SMDMM is not present, gracefully stub its macros.
 #if defined(SPACEMAN_DMM) && !defined(UNLINT)
 	#define RETURN_TYPE(X) set SpacemanDMM_return_type = X
@@ -27,7 +30,7 @@
 
 #if defined(UNIT_TESTS)
 	#include "config.dm"
-	#include "hooks.dm"
+	#include "runner_hooks.dm"
 	#include "runner.dm"
 	#include "unit_test.dm"
 	#include "usercode\_includes.dm"
